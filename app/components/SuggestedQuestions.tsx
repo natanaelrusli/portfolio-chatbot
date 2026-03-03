@@ -2,13 +2,16 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 
-const suggestions = [
+export const suggestions = [
   "What is your professional background?",
   "What technical skills do you have?",
   "Tell me about your most impactful project",
   "What certifications do you hold?",
   "Why would you be a good fit for a senior role?",
   "How can I contact you?",
+  "What is your current focus?",
+  "Can you show your projects?",
+  "Where are you located?",
 ];
 
 interface SuggestedQuestionsProps {

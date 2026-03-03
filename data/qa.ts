@@ -1,6 +1,7 @@
 export interface QAEntry {
   keywords: string[];
   answer: string;
+  actions?: { label: string; url: string; type: "email" | "linkedin" | "github" | "external" }[];
 }
 
 export const qaEntries: QAEntry[] = [
@@ -22,7 +23,19 @@ export const qaEntries: QAEntry[] = [
   {
     keywords: ["project", "portfolio", "built", "build", "developed", "impactful"],
     answer:
-      "Here are two projects I'm proud of:\n\n- **Project Alpha** — A real-time collaborative document editor supporting 50+ concurrent users with conflict resolution. Built with React, WebSocket, Node.js, and Redis. Used by 2 internal teams and improved document workflow efficiency by 30%.\n\n- **Project Beta** — A CLI tool for automated database migration and schema versioning, built with Go and PostgreSQL. Open-sourced with 200+ GitHub stars.",
+      "I'm particularly proud of my work on Project Alpha and Project Beta. They showcase my ability to handle complex real-time systems and developer tooling.",
+    actions: [
+      { label: "View GitHub", url: "https://github.com/yourusername", type: "github" },
+      { label: "Project Alpha", url: "https://github.com/yourusername/project-alpha", type: "external" },
+    ],
+  },
+  {
+    keywords: ["certification", "certified", "certificate"],
+    answer:
+      "I hold multiple industry-recognized certifications that validate my expertise in cloud architecture and development:",
+    actions: [
+      { label: "Verify on LinkedIn", url: "https://linkedin.com/in/yourprofile", type: "linkedin" },
+    ],
   },
   {
     keywords: ["education", "degree", "university", "school", "study", "studied"],
@@ -30,36 +43,68 @@ export const qaEntries: QAEntry[] = [
       "I hold a **B.S. in Computer Science** from University Name (2016–2020). I graduated with honors, with a focus on distributed systems.",
   },
   {
-    keywords: ["certification", "certified", "certificate"],
-    answer:
-      "I hold the following certifications:\n\n- AWS Certified Solutions Architect – Associate\n- Google Cloud Professional Cloud Developer",
-  },
-  {
     keywords: ["contact", "email", "reach", "linkedin", "github", "hire"],
     answer:
-      "You can reach me through the following channels:\n\n- **Email:** your.email@example.com\n- **LinkedIn:** linkedin.com/in/yourprofile\n- **GitHub:** github.com/yourusername\n- **Location:** City, Country",
+      "You can reach me through the following channels:",
+    actions: [
+      { label: "Email Me", url: "mailto:your.email@example.com", type: "email" },
+      { label: "LinkedIn", url: "https://linkedin.com/in/yourprofile", type: "linkedin" },
+      { label: "GitHub", url: "https://github.com/yourusername", type: "github" },
+    ],
   },
   {
     keywords: ["senior", "fit", "why", "hire", "strength", "good"],
     answer:
-      "I believe I'm a strong fit for a senior role because:\n\n- I've led platform development serving 100K+ users with measurable performance improvements.\n- I have experience mentoring junior developers and driving team productivity.\n- I'm comfortable across the full stack — frontend, backend, DevOps, and system design.\n- I've delivered open-source tooling adopted beyond my immediate team, showing initiative and impact beyond day-to-day work.",
+      "I believe I'm a strong fit for a senior role because:",
+    actions: [
+      { label: "View Resume", url: "https://linkedin.com/in/yourprofile", type: "external" },
+    ],
   },
   {
     keywords: ["interest", "hobby", "passion", "fun", "outside"],
     answer:
-      "Outside of work, I'm passionate about:\n\n- Contributing to open source projects\n- Technical blogging and knowledge sharing\n- Competitive programming",
+      "Outside of work, I'm passionate about:",
   },
   {
     keywords: ["language", "speak", "spoken", "fluent"],
     answer:
       "I speak **English** (Native) and **Spanish** (Conversational).",
   },
+  {
+    keywords: ["location", "live", "where", "city", "country", "based"],
+    answer: "I am currently based in **City, Country** and I am open to both remote work and relocation for the right opportunity.",
+  },
+  {
+    keywords: ["focus", "learning", "now", "current", "studying"],
+    answer: "Currently, I'm deepening my expertise in **System Design** and exploring **Generative AI** integration in web applications. I'm also working on improving my skills in **Go** and **Rust** for high-performance backend services.",
+  },
+  {
+    keywords: ["project", "projects", "portfolio", "github", "show", "work"],
+    answer: "You can find my work on **GitHub** ([github.com/yourusername](https://github.com/yourusername)). Notable projects include:\n\n- **Project Alpha**: A real-time collaborative editor.\n- **Project Beta**: A database migration CLI tool.\n\nType 'Tell me more about Project Alpha' for details!",
+    actions: [
+      { label: "GitHub Profile", url: "https://github.com/yourusername", type: "github" },
+    ],
+  },
+  {
+    keywords: ["alpha", "collaborative", "editor"],
+    answer: "**Project Alpha** is a real-time collaborative document editor supporting 50+ concurrent users. \n- **Stack:** React, WebSocket, Node.js, Redis. \n- **Impact:** Improved document workflow efficiency by 30% for 2 internal teams.",
+    actions: [
+      { label: "View Project Alpha", url: "https://github.com/yourusername/project-alpha", type: "external" },
+    ],
+  },
+  {
+    keywords: ["beta", "migration", "cli"],
+    answer: "**Project Beta** is a CLI tool for automated database migration and schema versioning. \n- **Stack:** Go, PostgreSQL. \n- **Recognition:** Open-sourced with 200+ GitHub stars.",
+    actions: [
+      { label: "View Project Beta", url: "https://github.com/yourusername/project-beta", type: "external" },
+    ],
+  },
 ];
 
 const FALLBACK =
   "I'm not sure I have an answer for that. Try asking about my experience, skills, projects, education, certifications, or contact info!";
 
-export function findAnswer(query: string): string {
+export function findAnswer(query: string): { answer: string; actions?: QAEntry["actions"] } {
   const normalized = query.toLowerCase();
 
   let bestMatch: QAEntry | null = null;
@@ -73,5 +118,7 @@ export function findAnswer(query: string): string {
     }
   }
 
-  return bestMatch ? bestMatch.answer : FALLBACK;
+  return bestMatch
+    ? { answer: bestMatch.answer, actions: bestMatch.actions }
+    : { answer: FALLBACK };
 }
