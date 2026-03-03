@@ -12,7 +12,7 @@ export default function TypingIndicator() {
       className="flex items-center gap-2"
     >
       <div className="flex h-5 w-5 items-center justify-center rounded-full bg-linear-to-br from-violet-500 to-indigo-600 text-[10px] font-bold text-white">
-        AI
+        NN
       </div>
       <div className="flex items-center gap-1 rounded-2xl px-3 py-2">
         {[0, 1, 2].map((i) => (

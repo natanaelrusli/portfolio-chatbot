@@ -4,17 +4,28 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { findAnswer } from "@/data/qa";
+import profile from "@/data/profile.json";
 import { useTheme } from "./components/ThemeProvider";
 import ChatMessage from "./components/ChatMessage";
 import ChatInput from "./components/ChatInput";
 import SuggestedQuestions from "./components/SuggestedQuestions";
 import TypingIndicator from "./components/TypingIndicator";
 
+interface ExperienceItem {
+  company: string;
+  role: string;
+  period: string;
+  highlights?: string[];
+  technologies?: string[];
+}
+
 interface Message {
   id: string;
   role: "user" | "assistant";
   content: string;
   actions?: { label: string; url: string; type: "email" | "linkedin" | "github" | "external" }[];
+  variant?: "experienceTimeline";
+  timeline?: ExperienceItem[];
 }
 
 interface StoredChat {
@@ -26,6 +37,50 @@ interface StoredChat {
 const STORAGE_KEY = "portfolio-chat";
 const MAX_MESSAGES = 100;
 const MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 hours
+
+const EXPERIENCE_QUESTION = "What are your experiences?";
+
+function buildExperienceTimeline(): {
+  answer: string;
+  variant: Message["variant"];
+  timeline: ExperienceItem[];
+} {
+  const experience = (profile as any).experience as ExperienceItem[] | undefined;
+
+  if (!experience || experience.length === 0) {
+    return {
+      answer:
+        "I don't have my experience data wired up yet, but I usually include my roles, periods, and key highlights here.",
+      variant: "experienceTimeline",
+      timeline: [],
+    };
+  }
+
+  const lines: string[] = [];
+  lines.push("Here’s my experience timeline:\n");
+
+  for (const item of experience) {
+    lines.push(
+      `### ${item.period}\n\n**${item.role} – ${item.company}**\n`,
+    );
+
+    if (item.highlights && item.highlights.length > 0) {
+      lines.push(
+        item.highlights.map((h) => `- ${h}`).join("\n"),
+        "",
+      );
+    }
+
+    if (item.technologies && item.technologies.length > 0) {
+      lines.push(
+        `_Technologies: ${item.technologies.join(", ")}_`,
+        "",
+      );
+    }
+  }
+
+  return { answer: lines.join("\n"), variant: "experienceTimeline", timeline: experience };
+}
 
 function loadChat(): { messages: Message[]; nextId: number } {
   try {
@@ -134,7 +189,15 @@ export default function Home() {
   }, [messages, isTyping]);
 
   const sendMessage = useCallback(
-    (text: string) => {
+    (
+      text: string,
+      overrideReply?: {
+        answer: string;
+        actions?: Message["actions"];
+        variant?: Message["variant"];
+        timeline?: Message["timeline"];
+      },
+    ) => {
       if (!text.trim() || isTyping) return;
 
       const userMsg: Message = {
@@ -147,12 +210,16 @@ export default function Home() {
 
       const delay = 400 + Math.random() * 600;
       setTimeout(() => {
-        const { answer, actions } = findAnswer(text);
+        const { answer, actions, variant, timeline } =
+          overrideReply ?? findAnswer(text);
+
         const botMsg: Message = {
           id: String(nextIdRef.current++),
           role: "assistant",
           content: answer,
           actions,
+          variant,
+          timeline,
         };
         setMessages((prev) => [...prev, botMsg]);
         setIsTyping(false);
@@ -174,6 +241,12 @@ export default function Home() {
   };
 
   const handleSuggestionSelect = (question: string) => {
+    if (question === EXPERIENCE_QUESTION) {
+      const reply = buildExperienceTimeline();
+      sendMessage(question, reply);
+      return;
+    }
+
     sendMessage(question);
   };
 

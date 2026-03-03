@@ -4,11 +4,21 @@ import { motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import type { Components } from "react-markdown";
 
+interface ExperienceItem {
+  company: string;
+  role: string;
+  period: string;
+  highlights?: string[];
+  technologies?: string[];
+}
+
 interface Message {
   id: string;
   role: "user" | "assistant";
   content: string;
   actions?: { label: string; url: string; type: "email" | "linkedin" | "github" | "external" }[];
+  variant?: "experienceTimeline";
+  timeline?: ExperienceItem[];
 }
 
 interface ChatMessageProps {
@@ -125,22 +135,63 @@ export default function ChatMessage({ message }: ChatMessageProps) {
       className={`flex w-full ${isUser ? "justify-end" : "justify-start"}`}
     >
       <div
-        className={`relative max-w-[88%] rounded-2xl px-3.5 py-2.5 text-sm sm:max-w-[80%] sm:px-4 sm:py-3 md:max-w-[75%] ${
-          isUser
-            ? "bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100"
-            : "text-zinc-600 dark:text-zinc-300"
-        }`}
+        className={`relative max-w-[88%] rounded-2xl px-3.5 py-2.5 text-sm sm:max-w-[80%] sm:px-4 sm:py-3 md:max-w-[75%] ${isUser
+          ? "bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100"
+          : "text-zinc-600 dark:text-zinc-300"
+          }`}
       >
         {!isUser && (
           <div className="mb-3 flex items-center gap-2">
             <div className="flex h-5 w-5 items-center justify-center rounded-full bg-linear-to-br from-violet-500 to-indigo-600 text-[10px] font-bold text-white">
-              AI
+              NN
             </div>
           </div>
         )}
         <div className="max-w-none text-sm [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
           {isUser ? (
             <p className="leading-7">{message.content}</p>
+          ) : message.variant === "experienceTimeline" && message.timeline && message.timeline.length > 0 ? (
+            <>
+              <p className="mb-3 text-sm font-medium text-zinc-800 dark:text-zinc-100">
+                Here’s my experience timeline:
+              </p>
+              <div className="relative ml-1 pl-4">
+                <div className="absolute left-2 top-1 h-full w-px bg-zinc-200 dark:bg-zinc-700" />
+                <div className="space-y-4">
+                  {message.timeline.map((item, index) => (
+                    <div key={`${item.company}-${item.period}-${index}`} className="relative flex gap-3">
+                      <div className="relative z-10 mt-1 h-2.5 w-2.5 rounded-full bg-violet-500 shadow-[0_0_0_3px_rgba(139,92,246,0.3)] dark:bg-violet-400" />
+                      <div className="pb-2">
+                        <p className="text-[11px] font-medium uppercase tracking-wide text-violet-600 dark:text-violet-300 mb-1">
+                          {item.period}
+                        </p>
+                        <p className="mt-0.5 text-sm font-semibold text-zinc-900 dark:text-zinc-50">
+                          {item.role}{" "}
+                          <span className="font-normal text-zinc-500 dark:text-zinc-400">
+                            • {item.company}
+                          </span>
+                        </p>
+                        {item.highlights && item.highlights.length > 0 && (
+                          <ul className="mt-1.5 ml-0 list-disc space-y-1 text-[13px] text-zinc-600 marker:text-zinc-400 dark:text-zinc-300">
+                            {item.highlights.map((h, i) => (
+                              <li key={i} className="ml-4 leading-6">
+                                {h}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                        {item.technologies && item.technologies.length > 0 && (
+                          <p className="mt-2 text-[12px] text-zinc-500 dark:text-zinc-400">
+                            <span className="font-medium text-zinc-600 dark:text-zinc-300">Technologies:</span>{" "}
+                            {item.technologies.join(", ")}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </>
           ) : (
             <>
               <ReactMarkdown components={mdComponents}>

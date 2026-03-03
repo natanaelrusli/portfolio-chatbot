@@ -1,33 +1,31 @@
 {
-  "name": "Your Name",
+  "name": "Nata Nael",
   "title": "Software Engineer",
-  "summary": "Passionate software engineer with X years of experience building scalable web applications and leading technical teams. Focused on delivering impactful solutions using modern technologies.",
+  "summary": "Software engineer with 4 years of experience building enterprise web applications and do training for junior engineers. Focused on delivering quality solutions with technologies.",
   "contact": {
-    "email": "your.email@example.com",
-    "linkedin": "https://linkedin.com/in/yourprofile",
-    "github": "https://github.com/yourusername",
-    "location": "City, Country"
+    "email": "contact@natanaelrusli.com",
+    "linkedin": "https://www.linkedin.com/in/natanaelrusli/",
+    "github": "https://github.com/natanaelrusli",
+    "location": "Jakarta, Indonesia"
   },
   "experience": [
     {
-      "company": "Company Name",
-      "role": "Senior Software Engineer",
-      "period": "Jan 2023 – Present",
+      "company": "Synapsis.id",
+      "role": "Senior Frontend Engineer",
+      "period": "April 2025 – Present",
       "highlights": [
         "Led development of a microservices platform serving 100K+ users",
         "Reduced API response times by 40% through query optimization",
         "Mentored a team of 4 junior developers"
       ],
-      "technologies": ["TypeScript", "React", "Node.js", "PostgreSQL", "AWS"]
+      "technologies": ["TypeScript", "React", "Node.js", "PostgreSQL"]
     },
     {
-      "company": "Previous Company",
-      "role": "Software Engineer",
-      "period": "Jun 2020 – Dec 2022",
+      "company": "Shopee",
+      "role": "Frontend Engineer and Technical Trainer",
+      "period": "Jul 2022 – Mar 2025",
       "highlights": [
-        "Built and maintained customer-facing dashboard used by 500+ businesses",
-        "Implemented CI/CD pipelines reducing deployment time by 60%",
-        "Contributed to open-source internal tooling adopted by 3 teams"
+        "Built and maintained internal app used by 500+ users across regions"
       ],
       "technologies": ["JavaScript", "Vue.js", "Python", "Docker", "GCP"]
     }

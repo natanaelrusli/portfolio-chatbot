@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export const suggestions = [
   "What is your professional background?",
+  "What are your experiences?",
   "What technical skills do you have?",
   "Tell me about your most impactful project",
   "What certifications do you hold?",
