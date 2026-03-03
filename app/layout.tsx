@@ -17,6 +17,9 @@ export const metadata: Metadata = {
   title: "Nata Nael",
   description:
     "Nata Nael - Software Engineer Portfolio.",
+  icons: {
+    icon: "/logo.svg",
+  },
 };
 
 export default function RootLayout({

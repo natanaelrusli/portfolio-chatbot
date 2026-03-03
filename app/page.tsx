@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { findAnswer } from "@/data/qa";
 import { useTheme } from "./components/ThemeProvider";
 import ChatMessage from "./components/ChatMessage";
@@ -199,8 +200,15 @@ export default function Home() {
         className="flex shrink-0 items-center justify-between border-b border-zinc-200 px-4 py-3 dark:border-zinc-800 sm:px-6 sm:py-4"
       >
         <div className="flex items-center gap-2.5 sm:gap-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-br from-blue-500 to-blue-600 text-xs font-bold text-white">
-            NN
+          <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-lg">
+            <Image
+              src="/logo.svg"
+              alt="Nata Nael Logo"
+              width={32}
+              height={32}
+              className="h-full w-full object-contain"
+              priority
+            />
           </div>
           <div>
             <h1 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
@@ -266,10 +274,14 @@ export default function Home() {
                   transition={{ duration: 0.5 }}
                   className="flex flex-col items-center gap-4 text-center"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-zinc-100 text-zinc-400 dark:bg-zinc-800 dark:text-zinc-500">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z" />
-                    </svg>
+                  <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl bg-white p-2 shadow-xs ring-1 ring-zinc-200 dark:bg-zinc-800 dark:ring-zinc-700">
+                    <Image
+                      src="/logo.svg"
+                      alt="Nata Nael Logo"
+                      width={64}
+                      height={64}
+                      className="h-full w-full object-contain"
+                    />
                   </div>
                   <div className="flex flex-col gap-1">
                     <h2 className="text-sm font-medium text-zinc-600 dark:text-zinc-300">
