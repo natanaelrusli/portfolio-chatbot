@@ -1,0 +1,77 @@
+{
+  "name": "Your Name",
+  "title": "Software Engineer",
+  "summary": "Passionate software engineer with X years of experience building scalable web applications and leading technical teams. Focused on delivering impactful solutions using modern technologies.",
+  "contact": {
+    "email": "your.email@example.com",
+    "linkedin": "https://linkedin.com/in/yourprofile",
+    "github": "https://github.com/yourusername",
+    "location": "City, Country"
+  },
+  "experience": [
+    {
+      "company": "Company Name",
+      "role": "Senior Software Engineer",
+      "period": "Jan 2023 – Present",
+      "highlights": [
+        "Led development of a microservices platform serving 100K+ users",
+        "Reduced API response times by 40% through query optimization",
+        "Mentored a team of 4 junior developers"
+      ],
+      "technologies": ["TypeScript", "React", "Node.js", "PostgreSQL", "AWS"]
+    },
+    {
+      "company": "Previous Company",
+      "role": "Software Engineer",
+      "period": "Jun 2020 – Dec 2022",
+      "highlights": [
+        "Built and maintained customer-facing dashboard used by 500+ businesses",
+        "Implemented CI/CD pipelines reducing deployment time by 60%",
+        "Contributed to open-source internal tooling adopted by 3 teams"
+      ],
+      "technologies": ["JavaScript", "Vue.js", "Python", "Docker", "GCP"]
+    }
+  ],
+  "education": [
+    {
+      "institution": "University Name",
+      "degree": "B.S. in Computer Science",
+      "period": "2016 – 2020",
+      "notes": "Graduated with honors. Focus on distributed systems."
+    }
+  ],
+  "skills": {
+    "languages": ["TypeScript", "JavaScript", "Python", "Go"],
+    "frontend": ["React", "Next.js", "Vue.js", "Tailwind CSS"],
+    "backend": ["Node.js", "Express", "FastAPI", "GraphQL"],
+    "databases": ["PostgreSQL", "MongoDB", "Redis"],
+    "devops": ["Docker", "Kubernetes", "AWS", "CI/CD"],
+    "other": ["System Design", "Agile/Scrum", "Technical Writing"]
+  },
+  "projects": [
+    {
+      "name": "Project Alpha",
+      "description": "A real-time collaborative document editor supporting 50+ concurrent users with conflict resolution.",
+      "technologies": ["React", "WebSocket", "Node.js", "Redis"],
+      "link": "https://github.com/yourusername/project-alpha",
+      "impact": "Used by 2 internal teams, improved document workflow efficiency by 30%"
+    },
+    {
+      "name": "Project Beta",
+      "description": "CLI tool for automated database migration and schema versioning.",
+      "technologies": ["Go", "PostgreSQL"],
+      "link": "https://github.com/yourusername/project-beta",
+      "impact": "Open-sourced with 200+ GitHub stars"
+    }
+  ],
+  "certifications": [
+    "AWS Certified Solutions Architect – Associate",
+    "Google Cloud Professional Cloud Developer"
+  ],
+  "languages_spoken": ["English (Native)", "Spanish (Conversational)"],
+  "interests": [
+    "Open Source Contributions",
+    "Technical Blogging",
+    "Competitive Programming"
+  ]
+}
