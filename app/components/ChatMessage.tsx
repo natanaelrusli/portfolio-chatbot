@@ -160,7 +160,7 @@ export default function ChatMessage({ message }: ChatMessageProps) {
                 <div className="space-y-4">
                   {message.timeline.map((item, index) => (
                     <div key={`${item.company}-${item.period}-${index}`} className="relative flex gap-3">
-                      <div className="relative z-10 mt-1 h-2.5 w-2.5 rounded-full bg-violet-500 shadow-[0_0_0_3px_rgba(139,92,246,0.3)] dark:bg-violet-400" />
+                      <div className="relative z-10 mt-1 size-2 shrink-0 rounded-full bg-violet-500 shadow-[0_0_0_3px_rgba(139,92,246,0.3)] dark:bg-violet-400" />
                       <div className="pb-2">
                         <p className="text-[11px] font-medium uppercase tracking-wide text-violet-600 dark:text-violet-300 mb-1">
                           {item.period}

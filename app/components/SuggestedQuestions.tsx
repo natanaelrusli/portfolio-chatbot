@@ -15,7 +15,6 @@ export const suggestions = [
   "What are your experiences?",
   "What technical skills do you have?",
   "Tell me about your most impactful project",
-  "What certifications do you hold?",
   "Why would you be a good fit for a senior role?",
   "How can I contact you?",
   "What is your current focus?",

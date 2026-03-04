@@ -14,62 +14,75 @@
       "role": "Senior Frontend Engineer",
       "period": "April 2025 – Present",
       "highlights": [
-        "Led development of a microservices platform serving 100K+ users",
-        "Reduced API response times by 40% through query optimization",
-        "Mentored a team of 4 junior developers"
+        "Developed and maintain 7+ projects for client company, with focus on ERP systems and internal tools that streamlined company workflows through IoT.",
+        "Improved application reliability by maintaining a live web application, achieving >80% SLA through timely identification and resolution of user-reported bugs.",
+        "Decreased bug reported by 80% on developing new features for Supply Chain Web Application by implementing automated E2E testing.",
+        "Researched and validated technology stacks based on client requirements, delivering Proofs of Concept (PoCs) to demonstrate feasibility and value."
       ],
-      "technologies": ["TypeScript", "React", "Node.js", "PostgreSQL"]
+      "technologies": ["TypeScript", "React", "NextJS", "Node.js", "PostgreSQL", "Tanstack Query", "Docker"]
     },
     {
       "company": "Shopee",
       "role": "Frontend Engineer and Technical Trainer",
       "period": "Jul 2022 – Mar 2025",
       "highlights": [
-        "Built and maintained internal app used by 500+ users across regions"
+        "Developed LMS and Survey Management System to be used internally by 1000+ employees across 3+ countries.",
+        "Reduced survey participant setup time by 50% by automating HRIS data integration, eliminating manual work for 65 personnel and ensuring data consistency.",
+        "Increased decision-making accuracy by introducing A/B testing pipelines that identified the most effective design and feature changes.",
+        "Reduced bug detection time by 50% by implementing Sentry for client-side error logging.",
+        "Improved team scalability by mentoring and evaluating approximately 100+ engineers, reducing onboarding time by 30% and improving probation pass rates by 50%."
       ],
-      "technologies": ["JavaScript", "Vue.js", "Python", "Docker", "GCP"]
+      "technologies": ["TypeScript", "React", "NextJS", "VueJS", "UmiJS", "Node.js", "Tanstack Query"]
+    },
+    {
+      "company": "StickEarn",
+      "role": "Frontend Engineer",
+      "period": "Dec 2021 – June 2022",
+      "highlights": [
+        "Developed Advertising Media Dashboard for renting 50+ digital and mobile billboards across Jakarta.",
+        "Improved functionality of the Advertisement Monitoring Dashboard by contributing feature enhancements using Vue.js, Tailwind CSS.",
+        "Increased development velocity by developing an internal component system for Front End Team and implement Storybook for the component documentation.",
+        "Reduced campaign analysis time by implementing Google analytics to analyze user behavior in the web app."
+      ],
+      "technologies": ["TypeScript", "React", "NextJS", "VueJS", "UmiJS", "Node.js", "Tanstack Query"]
     }
   ],
   "education": [
     {
-      "institution": "University Name",
-      "degree": "B.S. in Computer Science",
-      "period": "2016 – 2020",
-      "notes": "Graduated with honors. Focus on distributed systems."
+      "institution": "Kwik Kian Gie School of Business",
+      "degree": "S1 Sistem Informasi",
+      "period": "2015 – 2019",
+      "notes": "Graduated with honors; named best graduate of the 2015 batch."
     }
   ],
   "skills": {
-    "languages": ["TypeScript", "JavaScript", "Python", "Go"],
-    "frontend": ["React", "Next.js", "Vue.js", "Tailwind CSS"],
-    "backend": ["Node.js", "Express", "FastAPI", "GraphQL"],
-    "databases": ["PostgreSQL", "MongoDB", "Redis"],
-    "devops": ["Docker", "Kubernetes", "AWS", "CI/CD"],
+    "languages": ["TypeScript", "JavaScript", "Go"],
+    "frontend": ["React", "Next.js", "Vue.js", "Tailwind CSS", "Tanstack Query", "CesiumJS", "Maplibre"],
+    "backend": ["Node.js", "Express", "Fiber", "Gin"],
+    "databases": ["PostgreSQL", "MongoDB"],
+    "devops": ["Docker", "Cloudflare", "CI/CD"],
     "other": ["System Design", "Agile/Scrum", "Technical Writing"]
   },
   "projects": [
     {
-      "name": "Project Alpha",
-      "description": "A real-time collaborative document editor supporting 50+ concurrent users with conflict resolution.",
-      "technologies": ["React", "WebSocket", "Node.js", "Redis"],
-      "link": "https://github.com/yourusername/project-alpha",
-      "impact": "Used by 2 internal teams, improved document workflow efficiency by 30%"
+      "name": "Caelum Hospitality Website",
+      "description": "A landing page of a Hospitality Company based in Jakarta and Banjarmasin. Built with NextJS 15 and Typescript. Scores 93 PageSpeed (mobile) and 90+ SEO",
+      "technologies": ["React", "NextJS", "TailwindCSS", "Vercel"],
+      "link": "https://www.caelumhospitality.com/"
     },
     {
-      "name": "Project Beta",
-      "description": "CLI tool for automated database migration and schema versioning.",
-      "technologies": ["Go", "PostgreSQL"],
-      "link": "https://github.com/yourusername/project-beta",
-      "impact": "Open-sourced with 200+ GitHub stars"
+      "name": "Aeris Hotel Website",
+      "description": "Website to display all facilities of a hotel and have a feature to make a room reservation through email or whatsapp message. Pagespeed insights performance score of 99 and SEO score of 100",
+      "technologies": ["React", "NextJS", "TailwindCSS", "Vercel"],
+      "link": "https://www.aerishotel.com/"
+    },
+    {
+      "name": "Sienna Living Kebon Sirih Website",
+      "description": "Hotel website in Kebon Sirih, Central Jakarta, with simple room reservation via WhatsApp API. Scores 100 on Google PageSpeed (desktop) and 90+ on SEO.",
+      "technologies": ["React", "NextJS", "TailwindCSS", "Cloudflare", "Cloudflare Wrangler"],
+      "link": "https://www.siennaliving-kebonsirih.com/"
     }
   ],
-  "certifications": [
-    "AWS Certified Solutions Architect – Associate",
-    "Google Cloud Professional Cloud Developer"
-  ],
-  "languages_spoken": ["English (Native)", "Spanish (Conversational)"],
-  "interests": [
-    "Open Source Contributions",
-    "Technical Blogging",
-    "Competitive Programming"
-  ]
+  "certifications": [],
+  "languages_spoken": ["Bahasa (Native)", "English (Profesional)"]
 }
