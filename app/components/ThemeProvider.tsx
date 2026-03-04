@@ -35,12 +35,17 @@ function readThemeFromDOM(): Theme {
   return document.documentElement.classList.contains("light") ? "light" : "dark";
 }
 
+function getInitialTheme(): Theme {
+  if (typeof document === "undefined") return "dark";
+  return document.documentElement.classList.contains("light") ? "light" : "dark";
+}
+
 export default function ThemeProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>(getInitialTheme);
 
   useEffect(() => {
     const stored = localStorage.getItem("theme") as Theme | null;

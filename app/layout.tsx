@@ -34,15 +34,17 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
+                var theme;
                 try {
-                  var theme = localStorage.getItem('theme');
+                  theme = localStorage.getItem('theme');
                   if (!theme) {
                     theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                    localStorage.setItem('theme', theme);
                   }
-                  document.documentElement.classList.add(theme);
                 } catch(e) {
-                  document.documentElement.classList.add('dark');
+                  theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
                 }
+                document.documentElement.classList.add(theme);
               })();
             `,
           }}
