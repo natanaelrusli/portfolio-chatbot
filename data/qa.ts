@@ -6,6 +6,16 @@ export interface QAEntry {
 
 export const qaEntries: QAEntry[] = [
   {
+    keywords: ["hi", "hello", "hey", "greetings", "howdy", "good morning", "good afternoon", "good evening"],
+    answer:
+      "Hello! Thanks for stopping by. I'm Nata Nael — ask me about my experience, projects, technical skills, or how to get in touch. How can I help you today?",
+  },
+  {
+    keywords: ["how are you", "how are u", "what's up", "whats up", "how do you do"],
+    answer:
+      "Doing well, thanks for asking! I'm here to share my professional background and projects. What would you like to know?",
+  },
+  {
     keywords: ["background", "about", "who", "introduction", "introduce", "yourself"],
     answer:
       "Hi! I'm a Software Engineer with a passion for building scalable web applications. I have experience working across the full stack — from crafting responsive UIs with React and Next.js to designing robust backend services with Node.js and Python. I'm currently focused on delivering impactful solutions using modern technologies.",
