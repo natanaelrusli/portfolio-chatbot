@@ -56,7 +56,7 @@ export const qaEntries: QAEntry[] = [
       "professional",
     ],
     answer:
-      "Here's a summary of my professional experience:\n\n- **Senior Software Engineer at Company Name** (Jan 2023 – Present): Led development of a microservices platform serving 100K+ users, reduced API response times by 40%, and mentored 4 junior developers.\n\n- **Software Engineer at Previous Company** (Jun 2020 – Dec 2022): Built a customer-facing dashboard used by 500+ businesses, implemented CI/CD pipelines reducing deployment time by 60%, and contributed to open-source internal tooling.",
+      "Here's a summary of my professional experience:\n\n- **Senior Frontend Engineer at Synapsis.id** (April 2025 – Present): Developing and maintaining 7+ client projects, focusing on ERP systems and internal tools that streamline workflows through IoT, while improving reliability and reducing bugs in production systems.\n\n- **Frontend Engineer and Technical Trainer at Shopee** (Jul 2022 – Mar 2025): Built internal LMS and Survey Management systems for 1000+ employees across multiple countries, automated HRIS data integration, and mentored 100+ engineers to improve onboarding and performance.\n\n- **Frontend Engineer at StickEarn** (Dec 2021 – June 2022): Developed an advertising media dashboard for 50+ digital and mobile billboards, enhanced an advertisement monitoring dashboard, and created an internal component system with Storybook to speed up frontend development.",
   },
   {
     keywords: [
@@ -113,17 +113,17 @@ export const qaEntries: QAEntry[] = [
     actions: [
       {
         label: "Email Me",
-        url: "mailto:your.email@example.com",
+        url: "mailto:your.contact@natanaelrusli.com",
         type: "email",
       },
       {
         label: "LinkedIn",
-        url: "https://linkedin.com/in/yourprofile",
+        url: "https://linkedin.com/in/natanaelrusli",
         type: "linkedin",
       },
       {
         label: "GitHub",
-        url: "https://github.com/yourusername",
+        url: "https://github.com/natanaelrusli",
         type: "github",
       },
     ],
@@ -135,8 +135,8 @@ export const qaEntries: QAEntry[] = [
     actions: [
       {
         label: "View Resume",
-        url: "https://linkedin.com/in/yourprofile",
-        type: "external",
+        url: "https://linkedin.com/in/natanaelrusli",
+        type: "linkedin",
       },
     ],
   },
