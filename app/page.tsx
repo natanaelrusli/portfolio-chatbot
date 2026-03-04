@@ -34,18 +34,29 @@ interface StoredChat {
   nextId: number;
 }
 
+interface ProfileData {
+  experience?: ExperienceItem[];
+}
+
 const STORAGE_KEY = "portfolio-chat";
 const MAX_MESSAGES = 100;
 const MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 const EXPERIENCE_QUESTION = "What are your experiences?";
 
+type AnswerPayload = {
+  answer: string;
+  actions?: Message["actions"];
+  variant?: Message["variant"];
+  timeline?: Message["timeline"];
+};
+
 function buildExperienceTimeline(): {
   answer: string;
   variant: Message["variant"];
   timeline: ExperienceItem[];
 } {
-  const experience = (profile as any).experience as ExperienceItem[] | undefined;
+  const experience = (profile as ProfileData).experience;
 
   if (!experience || experience.length === 0) {
     return {
@@ -149,7 +160,7 @@ export default function Home() {
     const scrollDiv = scrollRef.current;
     if (scrollDiv) {
       scrollDiv.addEventListener("scroll", handleScroll);
-      handleScroll();
+      queueMicrotask(() => handleScroll());
       return () => scrollDiv.removeEventListener("scroll", handleScroll);
     }
   }, [handleScroll, messages, isTyping]);
@@ -191,12 +202,7 @@ export default function Home() {
   const sendMessage = useCallback(
     (
       text: string,
-      overrideReply?: {
-        answer: string;
-        actions?: Message["actions"];
-        variant?: Message["variant"];
-        timeline?: Message["timeline"];
-      },
+      overrideReply?: AnswerPayload,
     ) => {
       if (!text.trim() || isTyping) return;
 
@@ -211,7 +217,7 @@ export default function Home() {
       const delay = 400 + Math.random() * 600;
       setTimeout(() => {
         const { answer, actions, variant, timeline } =
-          overrideReply ?? findAnswer(text);
+          overrideReply ?? (findAnswer(text) as AnswerPayload);
 
         const botMsg: Message = {
           id: String(nextIdRef.current++),
@@ -264,157 +270,160 @@ export default function Home() {
   };
 
   return (
-    <div className="flex h-dvh flex-col bg-white dark:bg-zinc-900">
-      {/* Header */}
-      <motion.header
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="flex shrink-0 items-center justify-between border-b border-zinc-200 px-4 py-3 dark:border-zinc-800 sm:px-6 sm:py-4"
-      >
-        <div className="flex items-center gap-2.5 sm:gap-3">
-          <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-lg">
-            <Image
-              src="/logo.svg"
-              alt="Nata Nael Logo"
-              width={32}
-              height={32}
-              className="h-full w-full object-contain"
-              priority
-            />
-          </div>
-          <div>
-            <h1 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
-              Nata Nael
-            </h1>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          {hasMessages && (
-            <motion.button
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              onClick={clearChat}
-              className="flex h-8 items-center gap-1.5 rounded-lg bg-zinc-100 px-2.5 text-zinc-500 transition-colors hover:bg-red-50 hover:text-red-500 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-red-950 dark:hover:text-red-400"
-              aria-label="Clear chat"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="3 6 5 6 21 6" />
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-              </svg>
-              <span className="hidden text-xs sm:inline">Clear</span>
-            </motion.button>
-          )}
-          <button
-            onClick={toggle}
-            className="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-100 text-zinc-500 transition-colors hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700"
-            aria-label="Toggle theme"
+    <div className="flex h-dvh flex-col">
+      {/* Header + Chat: chat scrolls behind header, header is glass */}
+      <div className="relative flex flex-1 flex-col overflow-hidden bg-zinc-50 dark:bg-zinc-900">
+        {/* Messages: full height, scroll behind header */}
+        <div className="absolute inset-0 flex flex-col overflow-hidden">
+          <div
+            ref={scrollRef}
+            className={`flex-1 scroll-smooth px-3 py-4 pt-14 sm:px-4 sm:py-6 sm:pt-16 md:px-6 ${hasMessages ? "overflow-y-auto" : "overflow-hidden"}`}
           >
-            {(!mounted || theme === "dark") ? (
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="5" />
-                <line x1="12" y1="1" x2="12" y2="3" />
-                <line x1="12" y1="21" x2="12" y2="23" />
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                <line x1="1" y1="12" x2="3" y2="12" />
-                <line x1="21" y1="12" x2="23" y2="12" />
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-              </svg>
-            ) : (
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-              </svg>
-            )}
-          </button>
-        </div>
-      </motion.header>
+            <div className="mx-auto flex max-w-2xl flex-col gap-3 sm:gap-4">
+              {!hasMessages && (
+                <div className="flex flex-col items-center justify-center gap-8 px-2 py-12 sm:py-24">
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="flex flex-col items-center gap-4 text-center"
+                  >
+                    <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl bg-white p-2 shadow-xs ring-1 ring-zinc-200 dark:bg-zinc-800 dark:ring-zinc-700">
+                      <Image
+                        src="/logo.svg"
+                        alt="Nata Nael Logo"
+                        width={64}
+                        height={64}
+                        className="h-full w-full object-contain"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <h2 className="text-sm font-medium text-zinc-600 dark:text-zinc-300">
+                        How can I help you today?
+                      </h2>
+                      <p className="text-xs text-zinc-400 dark:text-zinc-500">
+                        Ask about my experience, projects, or technical skills.
+                      </p>
+                    </div>
+                  </motion.div>
+                  <SuggestedQuestions
+                    onSelect={handleSuggestionSelect}
+                    expanded={true}
+                    onToggle={() => { }}
+                  />
+                </div>
+              )}
 
-      {/* Messages Wrapper for Floating Buttons */}
-      <div className="relative flex-1 overflow-hidden">
-        <div
-          ref={scrollRef}
-          className="h-full overflow-y-auto scroll-smooth bg-zinc-50 px-3 py-4 dark:bg-zinc-900 sm:px-4 sm:py-6 md:px-6"
-        >
-          <div className="mx-auto flex max-w-2xl flex-col gap-3 sm:gap-4">
-            {!hasMessages && (
-              <div className="flex flex-col items-center justify-center gap-8 px-2 py-12 sm:py-24">
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="flex flex-col items-center gap-4 text-center"
-                >
-                  <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl bg-white p-2 shadow-xs ring-1 ring-zinc-200 dark:bg-zinc-800 dark:ring-zinc-700">
-                    <Image
-                      src="/logo.svg"
-                      alt="Nata Nael Logo"
-                      width={64}
-                      height={64}
-                      className="h-full w-full object-contain"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <h2 className="text-sm font-medium text-zinc-600 dark:text-zinc-300">
-                      How can I help you today?
-                    </h2>
-                    <p className="text-xs text-zinc-400 dark:text-zinc-500">
-                      Ask about my experience, projects, or technical skills.
-                    </p>
-                  </div>
-                </motion.div>
-                <SuggestedQuestions
-                  onSelect={handleSuggestionSelect}
-                  expanded={true}
-                  onToggle={() => { }}
-                />
-              </div>
-            )}
+              {messages.map((message) => (
+                <ChatMessage key={message.id} message={message} />
+              ))}
 
-            {messages.map((message) => (
-              <ChatMessage key={message.id} message={message} />
-            ))}
-
-            <AnimatePresence>
-              {isTyping && <TypingIndicator />}
-            </AnimatePresence>
+              <AnimatePresence>
+                {isTyping && <TypingIndicator />}
+              </AnimatePresence>
+            </div>
           </div>
+
+          {/* Floating Scroll Button */}
+          <AnimatePresence>
+            {showScrollButton && (
+              <motion.button
+                initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.8, y: 10 }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={showScrollButton === "top" ? scrollToTop : scrollToBottom}
+                className="absolute bottom-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md ring-1 ring-zinc-200 hover:bg-zinc-50 dark:bg-zinc-800 dark:ring-zinc-700 dark:hover:bg-zinc-700 sm:bottom-6 sm:right-6 lg:right-10 cursor-pointer"
+                aria-label={showScrollButton === "top" ? "Scroll to top" : "Scroll to bottom"}
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className={`text-zinc-600 dark:text-zinc-400 transition-transform duration-300 ${showScrollButton === "top" ? "" : "rotate-180"}`}
+                >
+                  <polyline points="18 15 12 9 6 15" />
+                </svg>
+              </motion.button>
+            )}
+          </AnimatePresence>
         </div>
 
-        {/* Floating Scroll Button */}
-        <AnimatePresence>
-          {showScrollButton && (
-            <motion.button
-              initial={{ opacity: 0, scale: 0.8, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.8, y: 10 }}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={showScrollButton === "top" ? scrollToTop : scrollToBottom}
-              className="absolute bottom-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md ring-1 ring-zinc-200 hover:bg-zinc-50 dark:bg-zinc-800 dark:ring-zinc-700 dark:hover:bg-zinc-700 sm:bottom-6 sm:right-6 lg:right-10"
-              aria-label={showScrollButton === "top" ? "Scroll to top" : "Scroll to bottom"}
-            >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className={`text-zinc-600 dark:text-zinc-400 transition-transform duration-300 ${showScrollButton === "top" ? "" : "rotate-180"}`}
+        {/* Header: glass overlay so chat is visible through it when scrolling */}
+        <motion.header
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="absolute left-0 right-0 top-0 z-10 flex items-center justify-between bg-linear-to-b from-zinc-50/90 to-transparent px-4 py-3 dark:from-zinc-900/90 dark:to-transparent sm:px-6 sm:py-4"
+        >
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-lg">
+              <Image
+                src="/logo.svg"
+                alt="Nata Nael Logo"
+                width={32}
+                height={32}
+                className="h-full w-full object-contain"
+                priority
+              />
+            </div>
+            <div>
+              <h1 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                Nata Nael
+              </h1>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {hasMessages && (
+              <motion.button
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                onClick={clearChat}
+                className="flex h-8 items-center gap-1.5 rounded-lg bg-zinc-100 px-2.5 text-zinc-500 transition-colors hover:bg-red-50 hover:text-red-500 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-red-950 dark:hover:text-red-400"
+                aria-label="Clear chat"
               >
-                <polyline points="18 15 12 9 6 15" />
-              </svg>
-            </motion.button>
-          )}
-        </AnimatePresence>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="3 6 5 6 21 6" />
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                </svg>
+                <span className="hidden text-xs sm:inline">Clear</span>
+              </motion.button>
+            )}
+            <button
+              onClick={toggle}
+              className="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-100 text-zinc-500 transition-colors hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700"
+              aria-label="Toggle theme"
+            >
+              {(!mounted || theme === "dark") ? (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="5" />
+                  <line x1="12" y1="1" x2="12" y2="3" />
+                  <line x1="12" y1="21" x2="12" y2="23" />
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                  <line x1="1" y1="12" x2="3" y2="12" />
+                  <line x1="21" y1="12" x2="23" y2="12" />
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                </svg>
+              ) : (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
+              )}
+            </button>
+          </div>
+        </motion.header>
       </div>
 
-      {/* Input area with inline suggestions */}
+      {/* Input area: separate background */}
       <div className="shrink-0 border-t border-zinc-200 bg-white px-3 py-3 dark:border-zinc-800 dark:bg-zinc-900 sm:px-4 sm:py-4 md:px-6">
         <div className="mx-auto max-w-2xl">
           {hasMessages && (
