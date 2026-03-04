@@ -2,6 +2,14 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 
+export const greetingSuggestions = [
+  "Hi",
+  "Hello",
+  "Greetings",
+  "Hey",
+  "How are you?",
+];
+
 export const suggestions = [
   "What is your professional background?",
   "What are your experiences?",
@@ -58,7 +66,7 @@ export default function SuggestedQuestions({
     <div className="mb-2">
       <button
         onClick={onToggle}
-        className="mb-1.5 flex items-center gap-1.5 text-[11px] text-zinc-400 transition-colors hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300 sm:text-xs"
+        className="mb-3 flex items-center gap-1.5 text-[11px] text-zinc-400 transition-colors hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300 sm:text-xs cursor-pointer"
       >
         <motion.svg
           width="12"
@@ -91,7 +99,7 @@ export default function SuggestedQuestions({
                 <button
                   key={q}
                   onClick={() => onSelect(q)}
-                  className="rounded-xl border border-zinc-200 bg-white px-2.5 py-1 text-[11px] text-zinc-500 transition-colors hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:border-zinc-600 dark:hover:bg-zinc-700 dark:hover:text-zinc-200 sm:px-3 sm:py-1.5 sm:text-xs"
+                  className="cursor-pointer rounded-xl border border-zinc-200 bg-white px-2.5 py-1 text-[11px] text-zinc-500 transition-colors hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:border-zinc-600 dark:hover:bg-zinc-700 dark:hover:text-zinc-200 sm:px-3 sm:py-1.5 sm:text-xs"
                 >
                   {q}
                 </button>

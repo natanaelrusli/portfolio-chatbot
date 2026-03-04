@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useMemo } from "react";
 import { suggestions } from "./SuggestedQuestions";
 
 interface ChatInputProps {
@@ -18,9 +18,25 @@ export default function ChatInput({
   onSubmit,
 }: ChatInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [dismissed, setDismissed] = useState(false);
+
+  const filteredSuggestions = useMemo(
+    () =>
+      input.trim().length > 0
+        ? suggestions.filter(
+            (s) =>
+              s.toLowerCase().includes(input.toLowerCase()) && s !== input
+          )
+        : [],
+    [input]
+  );
+  const showSuggestions =
+    filteredSuggestions.length > 0 && !dismissed;
+  const clampedIndex =
+    filteredSuggestions.length === 0
+      ? -1
+      : Math.min(selectedIndex, filteredSuggestions.length - 1);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -30,22 +46,15 @@ export default function ChatInput({
   }, [input]);
 
   useEffect(() => {
-    if (input.trim().length > 0) {
-      const filtered = suggestions.filter((s) =>
-        s.toLowerCase().includes(input.toLowerCase()) && s !== input
-      );
-      setFilteredSuggestions(filtered);
-      setShowSuggestions(filtered.length > 0);
+    queueMicrotask(() => {
       setSelectedIndex(-1);
-    } else {
-      setShowSuggestions(false);
-      setFilteredSuggestions([]);
-    }
+      setDismissed(false);
+    });
   }, [input]);
 
   const handleSuggestionClick = (suggestion: string) => {
     onInputChange(suggestion);
-    setShowSuggestions(false);
+    setDismissed(true);
     textareaRef.current?.focus();
   };
 
@@ -58,9 +67,9 @@ export default function ChatInput({
         e.preventDefault();
         setSelectedIndex((prev) => (prev - 1 + filteredSuggestions.length) % filteredSuggestions.length);
       } else if (e.key === "Enter" || e.key === "Tab") {
-        if (selectedIndex >= 0) {
+        if (clampedIndex >= 0) {
           e.preventDefault();
-          handleSuggestionClick(filteredSuggestions[selectedIndex]);
+          handleSuggestionClick(filteredSuggestions[clampedIndex]);
         } else if (e.key === "Enter" && !e.shiftKey) {
           e.preventDefault();
           if (input.trim() && !isLoading) {
@@ -68,7 +77,7 @@ export default function ChatInput({
           }
         }
       } else if (e.key === "Escape") {
-        setShowSuggestions(false);
+        setDismissed(true);
       }
     } else {
       if (e.key === "Enter" && !e.shiftKey) {
@@ -96,11 +105,10 @@ export default function ChatInput({
                   key={suggestion}
                   onClick={() => handleSuggestionClick(suggestion)}
                   onMouseEnter={() => setSelectedIndex(index)}
-                  className={`w-full text-left px-4 py-2 text-sm transition-colors ${
-                    index === selectedIndex
+                  className={`w-full text-left px-4 py-2 text-sm transition-colors ${index === clampedIndex
                       ? "bg-zinc-100 text-zinc-900 dark:bg-zinc-700 dark:text-zinc-100"
                       : "text-zinc-600 dark:text-zinc-400"
-                  }`}
+                    }`}
                 >
                   {suggestion}
                 </button>
@@ -122,7 +130,7 @@ export default function ChatInput({
           value={input}
           onChange={(e) => onInputChange(e.target.value)}
           onKeyDown={handleKeyDown}
-          onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+          onBlur={() => setTimeout(() => setDismissed(true), 200)}
           placeholder="Input your questions here..."
           rows={1}
           className="flex-1 resize-none bg-transparent text-sm text-zinc-900 placeholder-zinc-400 outline-none dark:text-zinc-100 dark:placeholder-zinc-500"
