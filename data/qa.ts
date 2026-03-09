@@ -4,7 +4,7 @@ export interface QAEntry {
   actions?: {
     label: string;
     url: string;
-    type: "email" | "linkedin" | "github" | "external";
+    type: "email" | "linkedin" | "github" | "external" | "download";
   }[];
 }
 
@@ -106,6 +106,26 @@ export const qaEntries: QAEntry[] = [
     ],
     answer:
       "I hold a **S1 Sistem Informasi** from Kwik Kian Gie School of Business (2015–2019). I graduated with honors; named best graduate of the 2015 batch.",
+  },
+  {
+    keywords: [
+      "cv",
+      "resume",
+      "see your cv",
+      "your cv",
+      "download cv",
+      "get your cv",
+      "curriculum",
+    ],
+    answer:
+      "You can download my CV below. It includes my experience, skills, education, and contact details.",
+    actions: [
+      {
+        label: "Download CV",
+        url: "/api/download-cv",
+        type: "download",
+      },
+    ],
   },
   {
     keywords: ["contact", "email", "reach", "linkedin", "github", "hire"],

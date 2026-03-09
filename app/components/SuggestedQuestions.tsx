@@ -17,6 +17,7 @@ export const suggestions = [
   "Tell me about your most impactful project",
   "Why would you be a good fit for a senior role?",
   "How can I contact you?",
+  "View or download my CV",
   "What is your current focus?",
   "Can you show your projects?",
   "Where are you located?",
