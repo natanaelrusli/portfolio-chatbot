@@ -246,16 +246,6 @@ export default function Home() {
     setInput("");
   };
 
-  const handleSuggestionSelect = (question: string) => {
-    if (question === EXPERIENCE_QUESTION) {
-      const reply = buildExperienceTimeline();
-      sendMessage(question, reply);
-      return;
-    }
-
-    sendMessage(question);
-  };
-
   const scrollToTop = () => {
     scrollRef.current?.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -267,6 +257,20 @@ export default function Home() {
         behavior: "smooth",
       });
     }
+  };
+
+  const handleSuggestionSelect = (question: string) => {
+    // Minimize the suggestion bar
+    setSuggestionsExpanded(false)
+    scrollToBottom()
+
+    if (question === EXPERIENCE_QUESTION) {
+      const reply = buildExperienceTimeline();
+      sendMessage(question, reply);
+      return;
+    }
+
+    sendMessage(question);
   };
 
   return (
@@ -430,7 +434,10 @@ export default function Home() {
             <SuggestedQuestions
               onSelect={handleSuggestionSelect}
               expanded={suggestionsExpanded}
-              onToggle={() => setSuggestionsExpanded((v) => !v)}
+              onToggle={() => {
+                setSuggestionsExpanded((v) => !v)
+                scrollToBottom()
+              }}
               compact
             />
           )}

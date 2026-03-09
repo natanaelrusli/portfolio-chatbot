@@ -52,7 +52,7 @@ export default function SuggestedQuestions({
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             onClick={() => onSelect(q)}
-            className="rounded-xl border border-zinc-200 bg-white px-3 py-1.5 text-[11px] text-zinc-500 transition-colors hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:border-zinc-600 dark:hover:bg-zinc-700 dark:hover:text-zinc-200 sm:px-3.5 sm:py-2 sm:text-xs"
+            className="rounded-xl border cursor-pointer border-zinc-200 bg-white px-3 py-1.5 text-[11px] text-zinc-500 transition-colors hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:border-zinc-600 dark:hover:bg-zinc-700 dark:hover:text-zinc-200 sm:px-3.5 sm:py-2 sm:text-xs"
           >
             {q}
           </motion.button>
@@ -61,6 +61,7 @@ export default function SuggestedQuestions({
     );
   }
 
+  // Chat suggestions on the top of the chat input
   return (
     <div className="mb-2">
       <button

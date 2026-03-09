@@ -157,7 +157,7 @@ export const qaEntries: QAEntry[] = [
   {
     keywords: ["focus", "learning", "now", "current", "studying"],
     answer:
-      "Currently, I'm deepening my expertise in **System Design** and exploring and setting up my own **Home Server**. I'm also working on improving my skills in **Go** and **Rust** for high-performance backend services.",
+      "Currently, I'm deepening my expertise in **GIS Web App** with Cesium JS and Geospatial Data, exploring and setting up my own **Home Server**. I'm also working on improving my skills in **Go** and **Rust** for high-performance backend services.",
   },
   {
     keywords: ["project", "projects", "portfolio", "github", "show", "work"],
