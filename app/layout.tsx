@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   description:
     "Nata Nael - Software Engineer Portfolio.",
   icons: {
-    icon: "/logo.svg",
+    icon: "/favicon.svg",
   },
 };
 
